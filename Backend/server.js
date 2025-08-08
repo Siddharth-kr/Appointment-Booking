@@ -15,7 +15,7 @@ connectCloudinary()
 
 // middlewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: 'https://appointment-booking-jgfd.onrender.com'}))
 
 // api endpoint
 app.use('/api/admin',adminRouter)
