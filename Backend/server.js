@@ -15,8 +15,21 @@ connectCloudinary()
 
 // middlewares
 app.use(express.json())
-app.use(cors({origin: 'https://appointment-booking-frontend-6clx.onrender.com', credentials: true}))
-app.use(cors({origin: 'https://appointment-booking-admin-pbsj.onrender.com', credentials: true}))
+const allowedOrigins = [
+  'https://appointment-booking-frontend-6clx.onrender.com',
+  'https://appointment-booking-admin-pbsj.onrender.com'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 
 // api endpoint
 app.use('/api/admin',adminRouter)
