@@ -15,7 +15,23 @@ connectCloudinary()
 
 // middlewares
 app.use(express.json())
-app.use(cors({origin: 'https://appointment-booking-frontend-6clx.onrender.com', credentials: true}))
+const allowedOrigins = [
+  'https://appointment-booking-frontend-6clx.onrender.com',
+  'http://localhost:5000'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 
 // api endpoint
 app.use('/api/admin',adminRouter)
